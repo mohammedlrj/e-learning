@@ -1,0 +1,29 @@
+# Ignore build results
+bin/
+obj/
+
+# User-specific files
+.vscode/
+.idea/
+
+# ASP.NET temporary files
+.vs/
+.user/
+.suo
+.userosscache
+.sln.docstates
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Logs
+*.log
+
+# NPM/Yarn/Node.js dependencies (if any)
+node_modules/
+
+# Rider settings
+.idea/
