@@ -66,5 +66,17 @@ namespace E_LearningPlatform.Controllers
                 return StatusCode(500, new { error = ex.Message });
             }
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> login([FromBody] LoginDto loginDto)
+        {
+            var token = await _userService.LoginAsync(loginDto);
+            if (token == null)
+            {
+                return Unauthorized("Invalid credentials");
+            }
+
+            return Ok(new { Token = token });
+        }
     }
 }

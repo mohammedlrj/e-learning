@@ -8,5 +8,6 @@ namespace E_LearningPlatform.Services
         Task RegisterProfessorAsync(ProfessorRegistrationDto professorDto);
         Task RegisterStudentAsync(StudentRegistrationDto studentDto);
         Task<User> GetUserByEmailAsync(string email);
+        Task<string> LoginAsync(LoginDto loginDto);
     }
 }

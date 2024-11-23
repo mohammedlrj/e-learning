@@ -4,6 +4,7 @@ using E_LearningPlatform.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_LearningPlatform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241123150526_professorStudentSeparated")]
+    partial class professorStudentSeparated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +60,6 @@ namespace E_LearningPlatform.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -149,8 +149,7 @@ namespace E_LearningPlatform.Migrations
                             Id = "ajhhdgs7-ec6d-4b88-9b20-5322fb1d94e1",
                             AccessFailedCount = 0,
                             CIN = "F123456",
-                            ConcurrencyStamp = "94f2f9d9-6f13-4317-a6dd-4b072f8fdfa2",
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "ed7833ea-cb75-4447-92c6-c75bd9d6523e",
                             Email = "admin@elearning.com",
                             EmailConfirmed = true,
                             FirstName = "Super",
@@ -159,12 +158,12 @@ namespace E_LearningPlatform.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ELEARNING.COM",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJKx2ksb5TPECZi2NAvAszZvycd5S3IhRUfQevVqoUCQnDxx4n+nUkzzh6gxkgE3GQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC0DAxI5VUG8SYVeKY8LK9cRsq8DTrCzYfXcMd12YuwOJ2aKJKb/5u3fqi2/KGcS6A==",
                             PhoneNumber = "0634567891",
                             PhoneNumberConfirmed = false,
                             ProfilePicture = "images/pic.png",
-                            RegistrationDate = new DateTime(2024, 11, 23, 15, 13, 41, 695, DateTimeKind.Utc).AddTicks(5584),
-                            SecurityStamp = "68cbaa08-a7b4-4c87-9107-2c6dbe51c928",
+                            RegistrationDate = new DateTime(2024, 11, 23, 15, 5, 25, 395, DateTimeKind.Utc).AddTicks(5461),
+                            SecurityStamp = "65d4cc8c-c94c-4418-8104-7e9d859fb670",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "superadmin"
@@ -351,6 +350,9 @@ namespace E_LearningPlatform.Migrations
             modelBuilder.Entity("E_LearningPlatform.Models.Student", b =>
                 {
                     b.HasBaseType("E_LearningPlatform.Models.User");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Level")
                         .IsRequired()

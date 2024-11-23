@@ -9,7 +9,8 @@ namespace E_LearningPlatform.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Professor> Professors { get; set; }
+        public DbSet<Student> Students { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -54,6 +55,9 @@ namespace E_LearningPlatform.Data
                 Id = "ajhhdgs7-ec6d-4b88-9b20-5322fb1d94e1",
                 UserName = "superadmin",
                 Email = adminEmail,
+                Gender = "Male",
+                CIN = "F123456",
+                ProfilePicture = "images/pic.png",
                 NormalizedUserName = "SUPERADMIN",
                 NormalizedEmail = adminEmail.ToUpper(),
                 Status = Enums.Status.Approved,
