@@ -16,8 +16,9 @@ namespace E_LearningPlatform.Data
         {
             base.OnModelCreating(builder);
 
-            this.SeedAdminUser(builder);
             this.SeedRoles(builder);
+            this.SeedAdminUser(builder);
+            this.SeedAdminUserRole(builder);
         }
 
         private void SeedRoles(ModelBuilder builder)
@@ -71,12 +72,15 @@ namespace E_LearningPlatform.Data
             };
 
             builder.Entity<User>().HasData(adminUser);
+        }
 
+        private void SeedAdminUserRole(ModelBuilder builder)
+        {
             builder.Entity<IdentityUserRole<string>>().HasData(
                 new IdentityUserRole<string>
                 {
-                    UserId = adminUser.Id,
-                    RoleId = "6ee2a5ea-ab9f-41a4-875e-fd4c1b142631"
+                    UserId = "ajhhdgs7-ec6d-4b88-9b20-5322fb1d94e1", 
+                    RoleId = "6ee2a5ea-ab9f-41a4-875e-fd4c1b142631" 
                 }
             );
         }

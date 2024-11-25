@@ -1,19 +1,24 @@
 ﻿using E_LearningPlatform.DTOs;
+using E_LearningPlatform.Models;
 using E_LearningPlatform.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace E_LearningPlatform.Controllers
 {
 
     [ApiController]
     [Route("api/users")]
-    public class UserController : ControllerBase
+    public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly UserManager<User> _userManager;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, UserManager<User> userManager)
         {
             _userService = userService;
+            _userManager = userManager;
         }
 
         [HttpPost("professor")]
@@ -50,7 +55,37 @@ namespace E_LearningPlatform.Controllers
             }
         }
 
-        [HttpGet("{email}")]
+        [HttpPost("login")]
+        public async Task<IActionResult> login([FromBody] LoginDto loginDto)
+        {
+            var token = await _userService.LoginAsync(loginDto);
+            if (token == null)
+            {
+                return Unauthorized("Invalid credentials");
+            }
+
+            return Ok(new { Token = token });
+        }
+
+        [HttpGet("by-id/{id}")]
+        public async Task<IActionResult> GetById(string id)
+        {
+            try
+            {
+                var user = await _userService.GetUserByIdAsync(id);
+                if(user == null)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+                return Ok(user);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        [HttpGet("by-email/{email}")]
         public async Task<IActionResult> GetByEmail(string email)
         {
             try
@@ -67,16 +102,91 @@ namespace E_LearningPlatform.Controllers
             }
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> login([FromBody] LoginDto loginDto)
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
         {
-            var token = await _userService.LoginAsync(loginDto);
-            if (token == null)
+            try
             {
-                return Unauthorized("Invalid credentials");
+                var users = await _userService.GetAllUsersAsync();
+                return Ok(users); 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}"); 
+            }
+        }
+
+        [HttpPut("student")]
+        public async Task<IActionResult> UpdateStudent([FromBody] StudentUpdateDto studentUpdateDto)
+        {
+            if (studentUpdateDto == null)
+            {
+                return BadRequest("Invalid student data.");
             }
 
-            return Ok(new { Token = token });
+            try
+            {
+                var userId = User.FindFirstValue("userId");
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("Token is missing or invalid");
+                }
+
+                var updatedStudent = await _userService.UpdateStudentAsync(userId, studentUpdateDto);
+
+                return Ok(updatedStudent);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("professor")]
+        public async Task<IActionResult> UpdateProfessor([FromBody] ProfessorUpdateDto professorUpdateDto)
+        {
+            if (professorUpdateDto == null)
+            {
+                return BadRequest("Invalid professor data.");
+            }
+
+            try
+            {
+                var userId = User.FindFirstValue("userId");
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Unauthorized("Token is missing or invalid");
+                }
+
+                var updatedProfessor = await _userService.UpdateProfessorAsync(userId, professorUpdateDto);
+
+                return Ok(updatedProfessor);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            try
+            {
+                var result = await _userService.DeleteUserByIdAsync(id);
+                if (!result)
+                {
+                    return NotFound(new { message = "User not found" });
+                }
+
+                return Ok(new { message = "User deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using E_LearningPlatform.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_LearningPlatform.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241124160319_seedAdminRoleFix")]
+    partial class seedAdminRoleFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,33 +145,6 @@ namespace E_LearningPlatform.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
 
                     b.UseTphMappingStrategy();
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "ajhhdgs7-ec6d-4b88-9b20-5322fb1d94e1",
-                            AccessFailedCount = 0,
-                            CIN = "F123456",
-                            ConcurrencyStamp = "b283a6a5-c19b-456b-9287-daf8af5ab62f",
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "admin@elearning.com",
-                            EmailConfirmed = true,
-                            FirstName = "Super",
-                            Gender = "Male",
-                            LastName = "Admin",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@ELEARNING.COM",
-                            NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAENtu9ZF1zR14zi412NRyaT3e8b2ZKpKEIg/SX67idgPjAhh4vIZhGv9TkfnGffv5MQ==",
-                            PhoneNumber = "0634567891",
-                            PhoneNumberConfirmed = false,
-                            ProfilePicture = "images/pic.png",
-                            RegistrationDate = new DateTime(2024, 11, 24, 16, 18, 38, 710, DateTimeKind.Utc).AddTicks(1417),
-                            SecurityStamp = "c712684c-b1aa-4d81-8403-4aa3cd20039d",
-                            Status = 1,
-                            TwoFactorEnabled = false,
-                            UserName = "superadmin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

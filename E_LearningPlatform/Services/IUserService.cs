@@ -7,7 +7,12 @@ namespace E_LearningPlatform.Services
     {
         Task RegisterProfessorAsync(ProfessorRegistrationDto professorDto);
         Task RegisterStudentAsync(StudentRegistrationDto studentDto);
+        Task<User> GetUserByIdAsync(string id);
         Task<User> GetUserByEmailAsync(string email);
+        Task<bool> DeleteUserByIdAsync(string id);
         Task<string> LoginAsync(LoginDto loginDto);
+        Task<IEnumerable<UserInfoDto>> GetAllUsersAsync();
+        Task<User> UpdateStudentAsync(string id, StudentUpdateDto studentUpdateDto);
+        Task<User> UpdateProfessorAsync(string id, ProfessorUpdateDto professorUpdateDto);
     }
 }
